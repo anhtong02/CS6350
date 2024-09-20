@@ -5,7 +5,11 @@ import numpy as np
 
 # Information Gain (using Entropy)
 def entropy(column):
-
+    """
+    Calculate entropy.
+    :param column: Panda series
+    :return: entropy
+    """
     #get fraction of each values in the column
     fractions_of_vals = column.value_counts(normalize=True)
     entropy = 0
@@ -15,11 +19,18 @@ def entropy(column):
 
 def information_gain(data, attr_index, label_column):
 
+    """
+    Information Gain method
+    :param data: Pandas DataFrame
+    :param attr_index: int, index of an attribute
+    :param label_column: string, name of label column
+    :return: info gain of an attribute.
+    """
+
     total_entropy = entropy(data[label_column])
     # get all values and get num of examples in each value
-
     values, counts = np.unique(data.iloc[:, attr_index], return_counts=True)
-    total = sum(values)
+    total = np.sum(counts)
     info_gain = 0
 
     for i in range(len(values)):
@@ -44,7 +55,7 @@ def majority_error_gain(data, attr_index, label_column):
     # get all values and get num of examples in each value
 
     values, counts = np.unique(data.iloc[:, attr_index], return_counts=True)
-    total = sum(values)
+    total = np.sum(counts)
     info_gain = 0
 
     for i in range(len(values)):
@@ -71,11 +82,11 @@ def gini_gain(data, attr_index, label_column):
 
 
     total_GI = gini_index(data[label_column])
-    # get name of all values and get num of examples in each value
+    # get name of all values in an attribute and get num of examples in each value
     values, counts = np.unique(data.iloc[:, attr_index], return_counts=True)
-    total = sum(values)
-    info_gain = 0
+    total = np.sum(counts) #total examples
 
+    info_gain = 0
     for i in range(len(values)):
         # calculate ME of each val
         extracted_vals = data[data.iloc[:, attr_index] == values[i]][label_column]
