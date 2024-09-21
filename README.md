@@ -17,6 +17,8 @@ Here was what i wrote and it worked:
 
 ### HOW TO WRITE SCRIPT FOR .sh FILE:
 This is my script, but you need to change for file directory according to your own! Again, do not forget the last 2 elements should be /CS6350-HW1/DecisionTree, your .sh file should be in DecisionTree folder!
+
+```bash
 cd /home/u1269555/Documents/CS6350-HW1/DecisionTree
 
 echo "curr directory: $(pwd)"
@@ -24,13 +26,14 @@ export PYTHONPATH=$(pwd)
 
 python3 car_predict.py
 python3 bank_predict.py
+```
 
 ### HOW TO CREATE .sh FILE IN THE FIRST PLACE:
 If you have a hard time not knowing how to create shell script in the first place just like me, im here to help!
-1. First, open your terminal, cd to your desire directory/ path.
+1. First, open your terminal, cd to your desire directory or path:
 `cd /your/desire/path/CS6350-HW1/DecisionTree`
-2. Run this line, name whatever you want your .sh file to be, i choose rp as "run_predict", so it looks like this: `nano rp.sh`, enter!
-3. Then you will get to nano editor, paste the script above to your nano editor, do not forget the path you just used in the first step! Control + O to save, then Enter, then control + X to get out of nano editor.
+2. Run this line, name whatever you want your .sh file to be, i choose rp as "run_predict", so it looks like this: `nano your_desire_filename.sh`, then enter.
+3. Then you will get to nano editor, paste the script above to your nano editor, do not forget to change the path you just used in the first step! Next, Control + O, then Enter to save, then control + X to get out of nano editor.
 4. Next 2 steps are the same step 3 and 4 from "Homework 1 - Decision Tree, how to run code on CADE machine."
 
 Thanks for reading!
