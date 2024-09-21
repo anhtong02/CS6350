@@ -3,19 +3,19 @@ This is a machine learning library developed by Anh Tong for
 CS5350/6350 in University of Utah
 
 ## Homework 1 - Decision Tree, how to run code on CADE machine.
- When you have the files on Linux CADE machines, MAKE SURE the rp.sh is in DecisionTree folder, DecisionTree folder is in CS6350-HW1 folder. 
-1. First, open the rp.sh file, on the first line is: `cd /home/u1269555/Documents/CS6350-HW1/DecisionTree`, change the path according to yours. Whatever you do, last 2 elements (CS6350-HW1 and DecisionTree) have to be there: `cd /a/b/c/CS6350-HW1/DecisionTree` , DO NOT FORGET TO SAVE THE FILE. If you want to remake a new file, then that is okay, as long as it stay in the DecisionTree folder! See how to write the script the file below!
-  
-2. Then in the terminal, cd to the path you just wrote. So it looks something like this: `cd /home/u1269555/Documents/CS6350-HW1/DecisionTree`. Press enter.
-3. Then write: `chmod +x /home/u1269555/Documents/CS6350-HW1/DecisionTree/rp.sh`, change the path you rewrote in step 1, but remember to plug /rp.sh in the end, so yours should look something like this: `chmod +x /a/b/c/CS6350-HW1/DecisionTree/rp.sh`. Press enter.
-4. Finally, run the file: `/home/u1269555/Documents/CS6350-HW1/DecisionTree/rp.sh`, once again, change the path, but do not forget last 3 elements. Now yours should look like this : `/a/b/c/CS6350-HW1/DecisionTree/rp.sh`. Press enter.
+1. Make sure you know your path to the folder, because you need it for step 2. Whatever your path is, last 2 elements (CS6350-HW1 and DecisionTree) have to be there: `/your/own/path/CS6350-HW1/DecisionTree`
+2. Then in the terminal, cd to the path from step 1. So it looks like this: `cd /your/own/path/CS6350-HW1/DecisionTree`, but last 2 elements (CS6350-HW1 and DecisionTree) always the same. Press enter.
+3. Then write: `chmod +x rp3.sh`. Press enter.
+4. Finally, run the file: `/your/own/path/CS6350-HW1/DecisionTree/rp3.sh`, once again, change the path, but do not forget last 3 elements. Press enter.
 
 And it should now run!
 
 Here was what i wrote and it worked:
-![image](https://github.com/user-attachments/assets/0a1670c6-ca68-4af1-8cc9-bb09cece8e7d)
+![image](https://github.com/user-attachments/assets/88132f57-5bb5-470f-b5bd-c0f0c4f4ac82)
+Even though below the step 4 line, it tells me "No such file or directory" but the code still runs!
 
-### HOW TO WRITE SCRIPT FOR .sh FILE:
+If relative path does not work, I have direction on how to make it to absolute path, as well as recreate the script below.
+### HOW TO WRITE SCRIPT (ABSOLUTE PATH) FOR .sh FILE: 
 This is my script, but you need to change for file directory according to your own! Again, do not forget the last 2 elements should be /CS6350-HW1/DecisionTree, your .sh file should be in DecisionTree folder!
 
 ```bash
