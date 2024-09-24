@@ -1,6 +1,4 @@
 # CS6350-HW1
-This is a machine learning library developed by Anh Tong for
-CS5350/6350 in University of Utah
 
 ## Homework 1 - Decision Tree, how to run code on CADE machine.
 1. Make sure you know your path to the folder, because you need it for step 2. Whatever your path is, last 2 elements (CS6350-HW1 and DecisionTree) have to be there: `/your/own/path/CS6350-HW1/DecisionTree`
