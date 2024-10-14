@@ -3,11 +3,11 @@ Decision tree using ID3 algorithm
 '''
 
 import numpy as np
-import gain_methods as gm
+from . import gain_methods as gm
 import pandas as pd
 
 
-def DecisionTree(data, label, attributes, gain_method = 'information_gain', max_depth= None):
+def DecisionTree(data, label, attributes, gain_method = 'information_gain', max_depth= 1):
 
     """
     A decision tree, using ID3 algorithm. Using dictionary.
@@ -19,16 +19,17 @@ def DecisionTree(data, label, attributes, gain_method = 'information_gain', max_
     :return: a decision tree
     """
 
-
     labels = data[label].unique()
-
     #1) if all ex have same label, return that label:
     if len(labels) == 1:
         return labels[0]
 
     # if attributes empty or max depth is reached, return leaf node with the most common label
     if len(attributes) == 0 or (max_depth is not None and max_depth == 0):
+
+
         most_common = data[label].value_counts().idxmax() #get the most common label and return it
+
         return most_common
 
     # 2) Otherwise:
@@ -120,4 +121,5 @@ def calculate_error(predictions, true_labels):
     :param true_labels: A Pandas Series
     :return:
     """
+
     return (predictions != true_labels).mean()

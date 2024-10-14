@@ -69,9 +69,6 @@ def majority_error_gain(data, attr_index, label_column):
     return total_ME - info_gain
 
 
-
-    return 0
-
 # Gini Index
 def gini_index(column):
     fractions_of_vals = column.value_counts(normalize=True)
