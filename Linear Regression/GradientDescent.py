@@ -2,11 +2,11 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib
-matplotlib.use('TkAgg')  # or 'Qt5Agg'
+matplotlib.use('Agg')  # Use the Agg backend for environments without GUI
 
 # Load the training data
-train_data = pd.read_csv('concrete/train.csv', header=None)
-test_data = pd.read_csv('concrete/test.csv', header=None)
+train_data = pd.read_csv('../../../Documents/CS5350/CS6350-HW2/LinearRegression/concrete/train.csv', header=None)
+test_data = pd.read_csv('../../../Documents/CS5350/CS6350-HW2/LinearRegression/concrete/test.csv', header=None)
 
 
 
@@ -74,7 +74,7 @@ def batch_gradient_descent(X, y, r, decay_rate, epsilon=1e-6, iter_num=1000):
 
         # see if w_new - w has converged
         if np.linalg.norm(w_new - w) < epsilon:
-            print(f"Converged, i= {t}, current learning r: {current_r} ")
+            print(f"Batch Converged, i= {t}, current learning r: {current_r} ")
 
             break
 
@@ -117,7 +117,7 @@ def stochastic_gradient_descent(X, y, r, decay_rate, tolerance=1e-6, iter_num=50
             w_new = w + current_r * gradient
             # Check convergence based on the change in weights
             if  np.linalg.norm(w_new - w) < tolerance:
-                print("Converged at example = ", i)
+                print("SGD Converged at example = ", i)
 
                 break
 
@@ -131,7 +131,7 @@ def stochastic_gradient_descent(X, y, r, decay_rate, tolerance=1e-6, iter_num=50
 
         #check to see if the past 2 costs already converge, if yes then break
         if len(costs) > 1 and np.abs(costs[-1] - costs[-2]) < tolerance:
-            print("already converged at iteration = " , t)
+            print("SGD converged at iteration = " , t)
             break
 
     return w, costs
@@ -189,4 +189,4 @@ print("Test cost using analytical sln:", test_cost_optimal)
 
 plt.show()
 
-
+plt.savefig('plot_for4ab.png')
