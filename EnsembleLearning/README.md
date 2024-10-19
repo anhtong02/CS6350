@@ -10,7 +10,7 @@ There will be 4 plots saved to this folder if you execute `run.sh`,
 
 ### How to use script to run the code
 1) cd to EnsembleLearning folder: `your/path/to/file/CS6350-HW2/EnsembleLearning`
-2) `chmod +x run.sh` so you're able to run the script
+2) `chmod +x run.sh`, so you're able to run the script
 3) `run.sh` to run , then you are done, but there's something else you need, read **2nd Note**!
 
 ### 2nd Note:
