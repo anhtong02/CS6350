@@ -20,10 +20,10 @@ class AdaBoost:
         self.T = T
         self.alphas = []
         self.trees = []
-        self.train_errors = []  # List to store training errors
-        self.test_errors = []  # List to store test errors
+        self.train_errors = []
+        self.test_errors = []
         self.et=[]
-        self.stump_train_errors = []  # Error of each stump on training data
+        self.stump_train_errors = []
         self.stump_test_errors = []
     def Boosting(self, data1, label, attributes, test_data):
         examples_size = len(data1)
@@ -83,15 +83,14 @@ class AdaBoost:
             data['weights'] /= Zt  # Normalize
 
         #train error:
-        overall_train_predict = self.predict(data1, label)  # Using the predict function
+        overall_train_predict = self.predict(data1, label)
 
 
 
 
 
         #test
-        overall_test_predict = self.predict(test_data, label, True)  # Using the predict function
-
+        overall_test_predict = self.predict(test_data, label, True)
 
     def predict(self, data, label, test = None):
         # Retrieve unique class labels from the data
@@ -141,7 +140,6 @@ class AdaBoost:
 
 
 
-# Run the AdaBoost algorithm
 
 import matplotlib.pyplot as plt
 
