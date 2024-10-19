@@ -12,8 +12,8 @@ bank_columns = ['age', 'job', 'marital', 'education',
 numeric_attr = ['age', 'balance', 'day', 'duration', 'campaign', 'pdays', 'previous']
 
 print("Loading in bank train data and test data")
-train_data = pd.read_csv('../Ensemble Learning/bank_data/train.csv', names= bank_columns)
-test_data = pd.read_csv('../Ensemble Learning/bank_data/test.csv', names = bank_columns)
+train_data = pd.read_csv('../EnsembleLearning/bank_data/train.csv', names= bank_columns)
+test_data = pd.read_csv('../EnsembleLearning/bank_data/test.csv', names = bank_columns)
 print("Done")
 print("----------------------------------")
 
