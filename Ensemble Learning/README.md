@@ -1,0 +1,1 @@
+# There will be 3 plots if you execute run.sh, f1_AdaBoost.png, f2_AdaBoost.png, plot_for_Bagging.png, RandomForest.png
