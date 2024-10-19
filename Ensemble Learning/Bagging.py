@@ -47,22 +47,17 @@ class Bagging:
         Predict labels for the data using the ensemble of trees.
         Parallelize tree predictions but aggregate the majority vote sequentially.
         """
-        # Step 1: Predict using all trees in parallel
         tree_predictions = Parallel(n_jobs=-1)(delayed(predict)(tree, data, label) for tree in self.trees)
 
-        # Step 2: Aggregate predictions tree-by-tree and calculate error incrementally
         predictions = []
         for t, tree_pred in enumerate(tree_predictions):
             predictions.append(tree_pred)  # Add new tree's predictions
             prediction_at_t = pd.DataFrame(predictions).T  # Transpose to align predictions by data point
 
-            # Step 3: Compute the majority vote up to tree `t`
             majority_vote_at_t = prediction_at_t.mode(axis=1)[0]
 
-            # Step 4: Calculate the error
             error = np.mean(majority_vote_at_t != data[label])
 
-            # Step 5: Store the error in the appropriate list
             if test:
                 self.test_errors.append(error)
             else:
