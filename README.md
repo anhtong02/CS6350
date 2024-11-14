@@ -22,3 +22,5 @@ The algorithm is in decision_tree.py, and the method is : DecisionTree()
 `weight`: this is made specifically for AdaBoost. It is a string indicates name of column that contains weight in a dataframe. Check out line 34 and 41 in AdaBoost.py. If you dont need weight, ignore it.
 
 `random_forest`: this is for random forest (hw2, question 2d), it takes an int indicate the subset of how many attributes you want, like 2 or 4 or 6.
+
+## How to use ADABOOST:
