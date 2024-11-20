@@ -33,7 +33,12 @@ The algorithm is in decision_tree.py, and the method is : DecisionTree()
 * `attributes` : a list of your attributes column name
 * `test_data` : your test data, a data frame.
 
-After training, you can see your either train errors or test errors by calling it:
+## How to use Bagging and Forest tree:
+1. Initialize: `bagged_trees = Bagging(T)` , T is how many trees u want. Default is 500
+2. Train tree:  `bagged_trees.Bag(self, data, label, attributes, c=None, d=None)`
+* `data` : your train data, a dataframe.
+* `attributes` : a list of your attributes column name
+* `label` : string name of your label column
 
-* `train_errors = adaboost.train_errors`
-* `test_errors = adaboost.test_errors`
+ ** For Forest Tree, the parameter `d` should be an int. **
+
