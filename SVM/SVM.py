@@ -4,6 +4,7 @@ from sklearn.utils import shuffle
 from scipy.optimize import minimize
 import matplotlib.pyplot as plt
 
+
 # Load Data
 def load_data(train_file, test_file):
     train = pd.read_csv(train_file, header=None)
@@ -24,7 +25,7 @@ def load_data(train_file, test_file):
     return X_train, y_train, X_test, y_test
 
 
-#2)
+# 2)
 class PrimalSVM:
     def __init__(self, C, T, schedule, gamma_params):
         self.C = C
@@ -69,6 +70,7 @@ class PrimalSVM:
     def get_objective_curve(self):
         return self.objective_values
 
+
 # gamma schedule
 def gamma_s1(t, gamma_0, a):
     """
@@ -80,6 +82,7 @@ def gamma_s1(t, gamma_0, a):
     """
     return gamma_0 / (1 + (gamma_0 / a) * t)
 
+
 def gamma_s2(t, gamma_0):
     """
     Schedule of learning rate: gamma_t = gamma0 / (1 + t)
@@ -88,6 +91,7 @@ def gamma_s2(t, gamma_0):
     :return: learning rate a step t, followed schedule 2.
     """
     return gamma_0 / (1 + t)
+
 
 def dual_objective(alpha, Q):
     """
@@ -104,6 +108,7 @@ def dual_objective(alpha, Q):
 
 def linear_kernel(x1, x2, gamma=None):
     return np.dot(x1, x2)
+
 
 def gaussian_kernel(x1, x2, gamma):
     """
@@ -132,7 +137,8 @@ def compute_Q(X, y, kernel, gamma=None):
             Q[i, j] = y[i] * y[j] * kernel(X[i], X[j], gamma)
     return Q
 
-def train_dual_svm(X, y, C, gamma = None):
+
+def train_dual_svm(X, y, C, gamma=None):
     if gamma is not None:
         Q = compute_Q(X, y, gaussian_kernel, gamma)
     else:
@@ -140,7 +146,7 @@ def train_dual_svm(X, y, C, gamma = None):
 
     # Constraints and bounds
     constraints = [{'type': 'eq', 'fun': lambda alpha: np.dot(alpha, y)}]
-    bounds = [(0, C) for item in range(len(X))] #make bounds for each alpha_i
+    bounds = [(0, C) for item in range(len(X))]  # make bounds for each alpha_i
     alpha0 = np.zeros(len(X))
 
     # Solve optimization
@@ -154,15 +160,15 @@ def train_dual_svm(X, y, C, gamma = None):
     )
     return result.x
 
-def get_w_b(X, y, alpha, C, threshold=1e-5):
 
+def get_w_b(X, y, alpha, C, epsilon=1e-5):
     scaled_yi = alpha * y
     w = np.sum(scaled_yi[:, None] * X, axis=0)  # Recover w
 
     support_vectors = []
 
     for a in alpha:
-        if a > threshold and a < C - threshold:
+        if a > epsilon and a < C - epsilon:
             support_vectors.append(True)
         else:
             support_vectors.append(False)
@@ -171,8 +177,10 @@ def get_w_b(X, y, alpha, C, threshold=1e-5):
     b = np.mean(examples)
     return w, b
 
+
 def dual_predict(X, w, b):
     return np.sign(np.dot(X, w) + b)
+
 
 def dual_error(X, y, w, b):
     predictions = dual_predict(X, w, b)
@@ -183,24 +191,25 @@ X_train, y_train, X_test, y_test = load_data('bank-note/train.csv', 'bank-note/t
 Cs = [100 / 873, 500 / 873, 700 / 873]
 T = 100
 
-def compare_primal_dual(X_train, y_train, X_test, y_test, C_values, T):
+
+def primal_vs_dual(X_train, y_train, X_test, y_test, C_values, T):
     results = {}
 
     # Train and compare for each C
     for C in C_values:
         # Primal SVM
-        for schedule_name, schedule_fn, params in [
+        for _name, schedule_fn, params in [
             ("Schedule 1", gamma_s1, {"gamma_0": 0.1, "a": 1}),
             ("Schedule 2", gamma_s2, {"gamma_0": 0.1}),
         ]:
-            print(f"Training Primal SVM, C={C}, {schedule_name}")
+            print(f"Training Primal SVM, C={C}, {_name}")
             svm = PrimalSVM(C, T, schedule_fn, params)
             svm.train(X_train, y_train)
 
             train_error = svm.error(X_train, y_train)
             test_error = svm.error(X_test, y_test)
 
-            results[(C, "Primal", schedule_name)] = {
+            results[(C, "Primal", _name)] = {
                 "train_error": train_error,
                 "test_error": test_error,
                 "weights": svm.w,
@@ -222,23 +231,19 @@ def compare_primal_dual(X_train, y_train, X_test, y_test, C_values, T):
         }
 
     # Print results
-    for (C, svm_type, schedule), metrics in results.items():
+    for (C, svm_type, schedule), nums in results.items():
         if svm_type == "Primal":
             print(f"{svm_type} SVM C={C}, Schedule={schedule}:")
         else:
             print(f"{svm_type} SVM C={C}:")
 
-        print(f"  Train Error: {metrics['train_error']:.4f}")
-        print(f"  Test Error: {metrics['test_error']:.4f}")
+        print(f"  Train Error: {nums['train_error']:.4f}")
+        print(f"  Test Error: {nums['test_error']:.4f}")
         if svm_type == "Primal":
-            print(f"  Weights: {metrics['weights']}")
+            print(f"  Weights: {nums['weights']}")
         else:
-            print(f"  Weights: {metrics['weights']}, Bias: {metrics['bias']}")
+            print(f"  Weights: {nums['weights']}, Bias: {nums['bias']}")
         print()
-
-
-
-
 
 
 def train_dual_svm_kernel(X, y, C, kernel, gamma):
@@ -252,7 +257,7 @@ def train_dual_svm_kernel(X, y, C, kernel, gamma):
     bounds = [(0, C) for _ in range(n_samples)]
     alpha0 = np.zeros(n_samples)
 
-    #opt
+    # opt
     result = minimize(
         fun=dual_objective,
         x0=alpha0,
@@ -272,62 +277,55 @@ def get_bias(X, y, alpha, kernel, gamma, threshold=1e-5):
     support_vec = (alpha > threshold) & (alpha < C - threshold)
     if not np.any(support_vec):
         raise ValueError("0 support vectors found.")
-
-    get_sum = np.sum(alpha * y[:, None] * np.array([kernel(X[s], X, gamma) for s in range(len(X))]),axis=1)
-    bias = np.mean(
-        y[support_vec] - get_sum[support_vec]
-    )
-    return bias
+    get_sum = np.sum(alpha * y[:, None] * np.array([kernel(X[s], X, gamma) for s in range(len(X))]), axis=1)
+    return np.mean(y[support_vec] - get_sum[support_vec])
 
 
-def dual_predict_with_kernel(X_train, y_train, X_test, alpha, b, kernel, gamma):
+def dual_predict_with_kernel(X_train, y_train, X_test, alpha, b, kernel, g):
     """
     Predict using the dual SVM with kernel.
     """
-    predictions = []
+    pred = []
     for x in X_test:
-        k =  np.array([kernel(x, x_train, gamma) for x_train in X_train])
+        k = np.array([kernel(x, x_train, g) for x_train in X_train])
         get_sum = np.sum(alpha * y_train * k)
         score = get_sum + b
-        predictions.append(np.sign(score))
+        pred.append(np.sign(score))
+
+    return np.array(pred)
 
 
-    return np.array(predictions)
-
-def dual_error_with_kernel(X_train, y_train, X_test, y_test, alpha, b, kernel, gamma):
+def dual_error_with_kernel(X_train, y_train, X_test, y_test, alpha, b, kernel, g):
     """
     Error rate of dual SVM with kernel.
     """
-    predictions = dual_predict_with_kernel(X_train, y_train, X_test, alpha, b, kernel, gamma)
+    predictions = dual_predict_with_kernel(X_train, y_train, X_test, alpha, b, kernel, g)
     return np.mean(predictions != y_test)
 
 
+def total_support_vectors(alpha, C, epsilon=1e-5):
+    return np.sum((alpha > epsilon) & (alpha < C - epsilon))
 
 
-def total_support_vectors(alpha, C, threshold=1e-5):
-    return np.sum((alpha > threshold) & (alpha < C - threshold))
-
-def overlap_sp(alpha1, alpha2, threshold=1e-5):
+def overlap_sp(alpha1, alpha2, epsilon=1e-5):
     """
     Count the overlap of support vect between 2 alphas.
     """
-    spv1 = np.where((alpha1 > threshold) & (alpha1 < C - threshold))[0]
-    spv2 = np.where((alpha2 > threshold) & (alpha2 < C - threshold))[0]
+    spv1 = np.where((alpha1 > epsilon) & (alpha1 < C - epsilon))[0]
+    spv2 = np.where((alpha2 > epsilon) & (alpha2 < C - epsilon))[0]
     return len(np.intersect1d(spv1, spv2))
+
 
 gammas = [0.1, 0.5, 1, 5, 100]
 Cs = [100 / 873, 500 / 873, 700 / 873]
-results = {}
-
 
 # question 2 and 3a
 print("-----------------Now running question 2 and 3a----------------------")
-compare_primal_dual(X_train, y_train, X_test, y_test, Cs, T)
+primal_vs_dual(X_train, y_train, X_test, y_test, Cs, T)
 print("-----------------DONE--------------------")
 print("-----------------Now running question 3b and 3c----------------------")
 
-
-#question 3b and 3c
+# question 3b and 3c
 support_vectors = {}
 for g in gammas:
     for C in Cs:
@@ -335,29 +333,21 @@ for g in gammas:
         alpha = train_dual_svm_kernel(X_train, y_train, C, gaussian_kernel, g)
         b = get_bias(X_train, y_train, alpha, gaussian_kernel, g)
 
-        # Get errors
+        # Get the errors
         train_error = dual_error_with_kernel(X_train, y_train, X_train, y_train, alpha, b, gaussian_kernel, g)
         test_error = dual_error_with_kernel(X_train, y_train, X_test, y_test, alpha, b, gaussian_kernel, g)
-
-        # Store results
-        results[(g, C)] = {"train_error": train_error, "test_error": test_error}
 
         print(f"Gamma={g}, C={C}: Train Error={train_error:.4f}, Test Error={test_error:.4f}")
 
         if C == 500 / 873:
             num_support_vectors = total_support_vectors(alpha, C)
             support_vectors[g] = {"alpha": alpha, "num_support_vectors": num_support_vectors}
-            print(f"Gamma={g}, C={C}: Number of Support Vectors={num_support_vectors}")
+            print(f"Gamma={g}, C={C}: num of Support Vectors={num_support_vectors}")
 
-
-overlaps = {}
 for i in range(len(gammas) - 1):
-    g1 = gammas[i]
-    g2 = gammas[i + 1]
-    a1 = support_vectors[g1]["alpha"]
-    a2 = support_vectors[g2]["alpha"]
+    a1 = support_vectors[gammas[i]]["alpha"]
+    a2 = support_vectors[gammas[i + 1]]["alpha"]
     overlap = overlap_sp(a1, a2)
-    overlaps[(g1, g2)] = overlap
-    print(f"Overlap between Gamma={g1} & Gamma={g2}: {overlap}")
+    print(f"Overlap between gamma {gammas[i]} & {gammas[i + 1]} is {overlap}")
 
 print("-----------------DONE--------------------")
