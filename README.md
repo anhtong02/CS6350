@@ -22,3 +22,23 @@ The algorithm is in decision_tree.py, and the method is : DecisionTree()
 `weight`: this is made specifically for AdaBoost. It is a string indicates name of column that contains weight in a dataframe. Check out line 34 and 41 in AdaBoost.py. If you dont need weight, ignore it.
 
 `random_forest`: this is for random forest (hw2, question 2d), it takes an int indicate the subset of how many attributes you want, like 2 or 4 or 6.
+
+## How to use ADABOOST:
+
+1. Initialize the adaboost like this : `adaboost = AdaBoost(T=500)`. T is how many trees you want, default is 20 trees.
+2. Then you train the tree like this: `adaboost.Boosting(bank_train, 'label', bank_columns[:-1], bank_test)`. Boosting method contains these parameters: ` def Boosting(self, data1, label, attributes, test_data):`
+
+* `data1` : your train data, a dataframe.
+* `label` : string name of your label column
+* `attributes` : a list of your attributes column name
+* `test_data` : your test data, a data frame.
+
+## How to use Bagging and Random Forest:
+1. Initialize: `bagged_trees = Bagging(T)` , T is how many trees u want. Default is 500
+2. Train tree:  `bagged_trees.Bag(self, data, label, attributes, c=None, d=None)`
+* `data` : your train data, a dataframe.
+* `attributes` : a list of your attributes column name
+* `label` : string name of your label column
+
+ ** For Random Forest, the parameter `d` should be an int. **
+
